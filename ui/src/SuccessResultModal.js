@@ -26,10 +26,12 @@ class SuccessResultModal extends React.Component {
         <h1 className="header">{this.props.firstName}, you're all set to go!</h1>
         </Row>
         <Row>
-              <p>Your guest user number is</p>
+              <p>Your guest user number is:</p>
               </Row>
               <Row>
-                <h1>{this.props.ticketNumber}</h1>
+                  <Col xs={6} md={4}/>
+                <Col xs={6} md={4}><div align="center"><div className="giant animated wobble">{this.props.ticketNumber}</div></div></Col>
+                <Col></Col>
                 </Row>
                 </Jumbotron>
                 </Container>);    

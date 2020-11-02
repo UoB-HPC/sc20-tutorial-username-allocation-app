@@ -15,12 +15,12 @@ import AlreadyRegisteredModal from './AlreadyRegisteredModal';
 import Spinner from './Spinner';
 
 /* Replace as per deployment */
-const API_KEY="%API_KEY%";
-const API_URL="%API_URL%";
+const API_KEY="";
+const API_URL="";
 
 const Errors = {
-    ThisPersonAlreadyReserved: 0, 
-    TechnicalError:1, 
+    ThisPersonAlreadyReserved: 0,
+    TechnicalError:1,
     NoError:2
 };
 
@@ -50,11 +50,11 @@ class ReservationForm extends React.Component {
         const reservation = this.state.reservation;
         const requestOptions = {
             method: 'POST',
-            mode: 'cors',        
-            referrerPolicy: 'no-referrer',    
+            mode: 'cors',
+            referrerPolicy: 'no-referrer',
             cache: 'no-cache',
             headers: { 'Content-Type': 'application/json',
-            'x-api-key': API_KEY,            
+            'x-api-key': API_KEY,
         },
 
             body: JSON.stringify({
@@ -63,29 +63,29 @@ class ReservationForm extends React.Component {
                 institution: reservation.institution,
                 email:reservation.email
             })
-        };    
+        };
         var resultStatus = 0;
         fetch(API_URL, requestOptions)
         .then((response) =>  {
             resultStatus = response.status;
-            return response.json();       
+            return response.json();
         })
         .then(data => {
             switch (resultStatus) {
-                case 201: 
+                case 201:
                     console.log(data);
-                    this.setState({ sending:false, submitted:true, reservation: { 
+                    this.setState({ sending:false, submitted:true, reservation: {
                         firstName: reservation.firstName,
                         lastName: reservation.lastName,
                         email: reservation.email,
                         institution: reservation.institution,
-                        ticketNumber: data.ticketNumber}, 
+                        ticketNumber: data.ticketNumber},
                         error: Errors.NoError });
                     break;
                 case 400:
                     this.setState({sending:false, submitted:true, error: Errors.ThisPersonAlreadyReserved});
                     break;
-                case 500:                    
+                case 500:
                 case 503:
                 default:
                         this.setState({sending:false, submitted:true, error: Errors.TechnicalError});
@@ -107,7 +107,7 @@ class ReservationForm extends React.Component {
 
         <Container className={this.state.sending ? "hide-me" : "p-3"}>
         <Jumbotron>
-    
+
         <Row align="center">
         <Col/>
         <Col xs={6} md={4}>
@@ -134,29 +134,29 @@ class ReservationForm extends React.Component {
         </Row>
         </Jumbotron>
       <Form onSubmit={this.onSubmit}>
-    
+
       <Form.Group controlId="firstName">
         <Form.Label>First Name</Form.Label>
         <Form.Control name="firstName" type="text" default={reservation.firstName} required onChange={this.handleChange} placeholder="Enter your first name" />
       </Form.Group>
-    
-    
+
+
       <Form.Group controlId="lastName">
         <Form.Label>Last Name</Form.Label>
         <Form.Control name="lastName" type="text" default={reservation.lastName} required onChange={this.handleChange} placeholder="Enter your last name" />
       </Form.Group>
-    
-    
+
+
       <Form.Group controlId="institution">
-        <Form.Label>Institution</Form.Label>
-        <Form.Control name="institution" type="text" default={reservation.institution} onChange={this.handleChange} placeholder="Enter Institution" />
+        <Form.Label>Organisation</Form.Label>
+        <Form.Control name="institution" type="text" default={reservation.institution} onChange={this.handleChange} placeholder="Enter company, university etc." />
       </Form.Group>
-    
+
       <Form.Group controlId="formEmail">
         <Form.Label>Email address</Form.Label>
-        <Form.Control name="email" type="text" default={reservation.email} onChange={this.handleChange} required placeholder="Enter email" /> // Not using email type because there might be unicode emails (@qq.com etc)
+        <Form.Control name="email" type="text" default={reservation.email} onChange={this.handleChange} required placeholder="Enter email" />
       </Form.Group>
-    
+
     <Form.Group controlId="formBasicCheckbox">
         <Form.Check type="checkbox" required feedback="You must agree before submitting." label="I accept the Terms and Conditions." />
       </Form.Group>
@@ -166,8 +166,9 @@ class ReservationForm extends React.Component {
     </Form>
         </Container>
         </>
-        
-    );    
+
+    );
+    // Not using email type because there might be unicode emails (@qq.com etc)
     }
 
     render() {
@@ -185,7 +186,7 @@ class ReservationForm extends React.Component {
         }
         return this.showForm(reservation);
     }
-  
+
 }
 
 export default ReservationForm;
